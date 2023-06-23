@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="script.js"></script>
+  <title>Desktop</title>
+</head>
+<body>
+  <div class="taskbar">
+    <div class="taskbar-button start-button" tabindex="0">
+      <img src="start.png" alt="Start">
+      
+      <div id="start-menu">
+        <div id="bottom-bar">
+          <div style="display: flex; align-items: center;">
+            <img src="user.png" alt="user">
+            <span style="margin-left: 10px;">User</span>
+          </div>
+          <img src="power.png" alt="shutdown" style="scale: 0.5;">
+        </div>
+      </div>
+    </div>
+    <div class="taskbar-button">
+      <img src="fileExplorer.png" alt="Icon">
+    </div>
+    <div class="taskbar-button vscode-task" style="display: none;">
+      <img src="vscode.png" alt="Icon">
+    </div>
+    <div class="taskbar-button google-task" style="display: none;">
+      <img src="google.png" alt="Icon">
+    </div>
+  </div>
+
+  <div class="desktop">
+    <div class="shortcut">
+      <img src="Computer.png" alt="Shortcut">
+      <span>This PC</span>
+    </div>
+    <div class="shortcut google" tabindex="0">
+      <img src="google.png" alt="Shortcut">
+      <span>Google Chrome</span>
+    </div>
+    <div class="shortcut vscode" tabindex="0">
+      <img src="vscode.png" alt="Shortcut">
+      <span>Visual Studio Code</span>
+    </div>
+    
+    <div id="VisualCode">
+      <div class="topbar">
+        <img src="vscode.png" alt="shortcut icon">
+        <p>style.scss - Visual Studio Code</p>
+        <div id="menu-buttons">
+          <p class="minimize" tabindex="0">_</p>
+          <p>☐</p>
+          <p class="close" tabindex="0">✕</p>
+        </div>
+      </div>
+      <div class="topbar" style="background: #252526; justify-content: left;">
+        <div class="tab" style="background: #1f1f1f;">
+          <img src="sass.png" style="margin: 0;">
+          &nbsp;
+          <p>style.scss ✕</p>
+        </div>
+        <div class="tab">
+          <p>Live Server ✕</p>
+        </div>
+      </div>
+      <div style="display: flex;">
+        <style id="custom-css" contenteditable="true" style="display: block; white-space: pre; border: 1px solid black;"> /* be careful when replacing css*/
+
+#content{
+  background-color: purple !important; /* I do not know why it doesn't work without !important */
+}
+#cube {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: blue;
+  top: 50%;
+  left: 50%;
+  transform: translate(-60%, -40%);
+}
+#circle{
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: red;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -60%);
+  border-radius: 50%;
+}</style>
+        <div id="content">
+          <div id="cube"></div>
+          <div id="circle"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="GoogleChrome">
+      <div class="topbar">
+        <img src="google.png" alt="shortcut icon">
+        <p>Google Chrome</p>
+        <div id="menu-buttons">
+          <p class="minimize" tabindex="0">_</p>
+          <p>☐</p>
+          <p class="close" tabindex="0">✕</p>
+        </div>
+      </div>
+
+      <div class="topbar" style="background-color: #3b3b3b; height: 40px; justify-content: center;">
+        <input id="searchInput" type="text" placeholder="Search or enter web address" onkeydown="handleKeyDown(event)">
+      </div>
+      <iframe id="browser" src="http://bing.com" frameborder="0"></iframe>
+
+    </div>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const startButton = document.querySelector('.start-button');
+    const startMenu = document.querySelector('#start-menu');
+
+    startButton.addEventListener('click', function(event) {
+      event.stopPropagation();
+      startMenu.style.display = (startMenu.style.display === 'none') ? 'block' : 'none';
+    });
+
+    startMenu.addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
+
+    document.addEventListener('click', function() {
+      startMenu.style.display = 'none';
+    });
+  });
+</script>
+
+</body>
+</html>
