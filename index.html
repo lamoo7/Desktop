@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://kit.fontawesome.com/c48f0d09a5.js" crossorigin="anonymous"></script>
+    <title>Windows</title>
+</head>
+
+<body>
+    <div id="desktop">
+        <div class="window closed" data-title="Google Chrome">
+            <iframe src="https://bing.com/" height="100%" width="100%" style="border-radius:10px;">
+                Couldn't display the window. Please enable the iframe
+                support on your browser.
+            </iframe>
+        </div>
+        <div class="window closed" data-title="Notepad">
+            <textarea></textarea>
+        </div>
+        <div class="window closed" data-title="Image Viewer">
+            <img id="pic"
+                src="https://mediacdn.libertatea.ro/unsafe/960x539/smart/filters:format(webp):contrast(8):quality(75)/https://static4.libertatea.ro/wp-content/uploads/2024/02/profimedia-0847800830-scaled.jpg"
+                alt="Donald Trump with a Cap">
+        </div>
+
+
+
+        <div id="start-menu">
+            <ul id="option-menu">
+                <li><i class="fa-solid fa-circle-user"></i></li>
+                <li><i class="fa-regular fa-file"></i></li>
+                <li><i class="fa-regular fa-image"></i></li>
+                <li><i class="fa-solid fa-gear"></i></li>
+                <li><i class="fa-solid fa-power-off" style="animation: alternate shutdown 1s infinite;"></i></li>
+            </ul>
+            <ul id="app-menu">
+                <li><a class="openWindow" data-id="0"><img src="google.png" alt="app"></a></li>
+                <li><a class="openWindow" data-id="1"><img src="notepad.png" alt="app"></a></li>
+                <li><a class="openWindow" data-id="2"><img src="image.svg" alt="app"></a></li>
+            </ul>
+        </div>
+
+
+
+        <div id="taskbar">
+            <img src="win.png" alt="Start" title="Start" class="winstart">
+
+            <input type="text" class="winsearch" id="searchInput" placeholder="Type here to search the web..."
+                maxlength="30">
+
+            <span class="current-time"></span>
+        </div>
+
+        <div id="icons">
+            <div class="sndcol">
+                <!-- insert here other icons -->
+            </div>
+            <div class="fstcol">
+                <a class="openWindow" data-id="0">
+                    <img src="google.png"><br>
+                    Google Chrome
+                </a>
+                <a class="openWindow" data-id="1">
+                    <img src="notepad.png"><br>
+                    Notepad
+                </a>
+                <a class="openWindow" data-id="2">
+                    <img src="image.svg"><br>
+                    image.jpg
+                </a>
+            </div>
+        </div>
+
+        <div id="mob">
+            <h1>Please use a computer in order to have access to this app</h1>
+        </div>
+    </div>
+
+    <div id="wrapper-sd">
+        <div class="loader">
+            <span class="pip-0"></span>
+            <span class="pip-1"></span>
+            <span class="pip-2"></span>
+            <span class="pip-3"></span>
+            <span class="pip-4"></span>
+            <span class="pip-5"></span>
+        </div>
+        <h1>Shutting down</h1>
+    </div>
+
+    <script>
+        function updateTime() {
+            var currentTime = new Date();
+
+            var day = currentTime.getDate();
+            var month = currentTime.getMonth() + 1;
+            var year = currentTime.getFullYear();
+
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
+            var seconds = currentTime.getSeconds();
+
+            day = day < 10 ? '0' + day : day;
+            month = month < 10 ? '0' + month : month;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            var dateString = day + '-' + month + '-' + year;
+            var timeString = hours + ':' + minutes + ':' + seconds;
+
+            var currentTimeSpans = document.getElementsByClassName('current-time');
+            for (var i = 0; i < currentTimeSpans.length; i++) {
+                currentTimeSpans[i].textContent = dateString + ', ' + timeString;
+            }
+        }
+
+        setInterval(updateTime, 1000);
+
+        updateTime();
+
+
+
+
+        function search() {
+            var query = document.getElementById('searchInput').value;
+            if (query.trim() !== '') {
+                var searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                window.open(searchUrl, '_blank');
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                search();
+            }
+        });
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var startMenu = document.getElementById('start-menu');
+            var winStart = document.querySelector('.winstart');
+
+            var isOpen = false;
+            function isInsideStartMenu(target) {
+                return target == startMenu || startMenu.contains(target);
+            }
+
+            winStart.addEventListener('click', function (event) {
+                event.stopPropagation();
+                if (!isOpen) {
+                    startMenu.style.height = '500px';
+                    isOpen = true;
+                } else {
+                    startMenu.style.height = '0';
+                    isOpen = false;
+                }
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!isInsideStartMenu(event.target) && isOpen) {
+                    startMenu.style.height = '0';
+                    isOpen = false;
+                }
+            });
+        });
+
+
+
+        var powerOffIcon = document.querySelector('.fa-power-off');
+        var wrapperSd = document.getElementById('wrapper-sd');
+        powerOffIcon.addEventListener('click', function () {
+            wrapperSd.style.display = 'flex';
+        });
+    </script>
+
+</body>
+
+</html>
